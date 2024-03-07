@@ -27,7 +27,7 @@ type Client struct {
 	Headers   map[string]interface{}
 }
 
-func NewClient(BaseURL string) *Client {
+func NewClient(baseURL, token string) *Client {
 	client := &Client{UserAgent: UserAgent}
 
 	return client
