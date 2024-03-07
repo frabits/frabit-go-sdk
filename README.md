@@ -7,3 +7,22 @@
 
 
 Frabit official golang sdk
+
+# Installation
+```bash
+go get https://github.com/frabits/frabit-go-sdk
+```
+
+# Examples
+
+```golang
+package main
+
+import "github.com/frabits/frabit-go-sdk"
+
+func main(){
+	client := Client(baseUrl,token)
+	
+	client.database.get()
+}
+```
