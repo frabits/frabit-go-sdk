@@ -18,11 +18,18 @@ go get https://github.com/frabits/frabit-go-sdk
 ```golang
 package main
 
-import "github.com/frabits/frabit-go-sdk"
-
-func main(){
-	client := Client(baseUrl,token)
+import (
+	"os"
 	
+	"github.com/frabits/frabit-go-sdk"
+)
+
+func main() {
+	baseUrl := os.Getenv("FRABIT_BASE_URL")
+	token := os.Getenv("FRABIT_TOKEN")
+	
+	client := NewClient(baseUrl, token)
+
 	client.database.get()
 }
 ```
