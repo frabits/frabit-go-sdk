@@ -5,4 +5,24 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/frabits/frabit-go-sdk)](https://goreportcard.com/report/github.com/frabits/frabit-go-sdk)
 ![GitHub](https://img.shields.io/github/license/frabits/frabit-go-sdk)
 
+
 Frabit official golang sdk
+
+# Installation
+```bash
+go get https://github.com/frabits/frabit-go-sdk
+```
+
+# Examples
+
+```golang
+package main
+
+import "github.com/frabits/frabit-go-sdk"
+
+func main(){
+	client := Client(baseUrl,token)
+	
+	client.database.get()
+}
+```
