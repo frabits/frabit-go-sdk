@@ -21,14 +21,14 @@ package main
 import (
 	"os"
 	
-	"github.com/frabits/frabit-go-sdk"
+	fb "github.com/frabits/frabit-go-sdk"
 )
 
 func main() {
 	baseUrl := os.Getenv("FRABIT_BASE_URL")
 	token := os.Getenv("FRABIT_TOKEN")
 	
-	client := NewClient(baseUrl, token)
+	client := fb.NewClient(fb.WithBaseUrl(baseUrl), fb.WithToken(token))
 
 	client.database.get()
 }
