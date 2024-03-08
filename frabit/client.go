@@ -48,7 +48,7 @@ type Client struct {
 }
 
 type service struct {
-	Client
+	*Client
 }
 
 type ClientOption func(client *Client) error
