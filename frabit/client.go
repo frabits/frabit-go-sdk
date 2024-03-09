@@ -147,6 +147,10 @@ func (c *Client) newRequest(method string, path string, body interface{}) (*http
 		req.Header.Set(k, v)
 	}
 
+	if c.UserAgent != "" {
+		req.Header.Set("User-Agent", c.UserAgent)
+	}
+
 	return req, nil
 }
 
