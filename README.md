@@ -19,17 +19,27 @@ go get https://github.com/frabits/frabit-go-sdk
 package main
 
 import (
+	"context"
+	"log"
 	"os"
+
 	
-	fb "github.com/frabits/frabit-go-sdk"
+	fb "github.com/frabits/frabit-go-sdk/frabit"
 )
 
 func main() {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 	baseUrl := os.Getenv("FRABIT_BASE_URL")
 	token := os.Getenv("FRABIT_TOKEN")
 	
-	client := fb.NewClient(fb.WithBaseUrl(baseUrl), fb.WithToken(token))
+	client,err := fb.NewClient(fb.WithBaseUrl(baseUrl), fb.WithToken(token))
+	if err != nil{
+		log.Fatalf("failed to create client: %v", err)
+	}
 
-	client.database.Get()
+	client.Database.List(ctx,fb.ListDatabseRequest{
+		"Workspace":"myDemo",
+	})
 }
 ```
