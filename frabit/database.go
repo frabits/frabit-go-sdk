@@ -17,9 +17,15 @@ package frabit
 
 import "context"
 
-type DatabaseService service
+type DatabaseService interface {
+	GetDatabase()
+}
 
-func (d *DatabaseService) GetDatabase() {
+type databaseService struct {
+	*Client
+}
+
+func (d *databaseService) GetDatabase() {
 	ctx := context.Background()
 	req, _ := d.Client.newRequest("get", "database", nil)
 	d.Client.do(ctx, req, nil)

@@ -27,7 +27,7 @@ import (
 )
 
 const Version = "2.0.19"
-const UserAgent = "frabit-go-sdk" + Version
+const UserAgent = "frabit-go-sdk/" + Version
 const jsonMediaType = "application/json"
 
 type ErrorCode string
@@ -45,6 +45,9 @@ type Client struct {
 	UserAgent string
 	Token     string
 	Headers   map[string]string
+
+	// services used for communicate with the Frabit API
+	Database DatabaseService
 }
 
 type service struct {
@@ -101,6 +104,8 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 			return nil, err
 		}
 	}
+
+	c.Database = &databaseService{c}
 
 	return c, nil
 }
