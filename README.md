@@ -30,6 +30,6 @@ func main() {
 	
 	client := fb.NewClient(fb.WithBaseUrl(baseUrl), fb.WithToken(token))
 
-	client.database.get()
+	client.database.Get()
 }
 ```
