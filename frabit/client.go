@@ -48,6 +48,7 @@ type Client struct {
 
 	// services used for communicate with the Frabit API
 	Database DatabaseService
+	Team     TeamService
 }
 
 type service struct {
@@ -106,6 +107,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 	}
 
 	c.Database = &databaseService{c}
+	c.Team = &teamService{c}
 
 	return c, nil
 }

@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("failed to create client: %v", err)
 	}
 
-	client.Database.List(ctx,fb.ListDatabseRequest{
+	client.Database.GetDatabase(ctx,fb.ListDatabseRequest{
 		"Workspace":"myDemo",
 	})
 }

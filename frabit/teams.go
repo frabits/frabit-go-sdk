@@ -17,31 +17,31 @@ package frabit
 
 import "context"
 
-type DatabaseService interface {
-	GetDatabase(ctx context.Context) (*Database, error)
-	CreateDatabase(ctx context.Context, req CreateDatabaseRequest) (*Database, error)
+type TeamService interface {
+	GetTeam(ctx context.Context) (*Team, error)
+	CreateTeam(ctx context.Context, req CreateTeamRequest) (*Team, error)
 }
 
-type databaseService struct {
+type teamService struct {
 	*Client
 }
 
-type Database struct {
-	Workspace string `json:"workspace"`
-	Name      string `json:"name"`
-	Admin     string `json:"admin"`
-}
-
-type CreateDatabaseRequest struct {
+type Team struct {
 	Workspace string `json:"workspace"`
 	Name      string `json:"name"`
 	Owner     string `json:"owner"`
 }
 
-func (d *databaseService) GetDatabase(ctx context.Context) (*Database, error) {
-	req, _ := d.Client.newRequest("get", "database", nil)
-	db := &Database{}
-	err := d.Client.do(ctx, req, db)
+type CreateTeamRequest struct {
+	Workspace string `json:"workspace"`
+	Name      string `json:"name"`
+	Owner     string `json:"owner"`
+}
+
+func (t *teamService) GetTeam(ctx context.Context) (*Team, error) {
+	req, _ := t.Client.newRequest("get", "database", nil)
+	db := &Team{}
+	err := t.Client.do(ctx, req, db)
 	if err != nil {
 		return nil, err
 	}
@@ -49,10 +49,10 @@ func (d *databaseService) GetDatabase(ctx context.Context) (*Database, error) {
 	return db, nil
 }
 
-func (d *databaseService) CreateDatabase(ctx context.Context, CreateReq CreateDatabaseRequest) (*Database, error) {
-	req, _ := d.Client.newRequest("post", "database", CreateReq)
-	db := &Database{}
-	err := d.Client.do(ctx, req, db)
+func (t *teamService) CreateTeam(ctx context.Context, CreateReq CreateTeamRequest) (*Team, error) {
+	req, _ := t.Client.newRequest("post", "database", CreateReq)
+	db := &Team{}
+	err := t.Client.do(ctx, req, db)
 	if err != nil {
 		return nil, err
 	}
