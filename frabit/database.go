@@ -25,8 +25,20 @@ type databaseService struct {
 	*Client
 }
 
-func (d *databaseService) GetDatabase() {
+type Database struct {
+	Workspace string `json:"workspace"`
+	Name      string `json:"name"`
+	Owner     string `json:"owner"`
+}
+
+func (d *databaseService) GetDatabase() (*Database, error) {
 	ctx := context.Background()
 	req, _ := d.Client.newRequest("get", "database", nil)
-	d.Client.do(ctx, req, nil)
+	db := &Database{}
+	err := d.Client.do(ctx, req, db)
+	if err != nil {
+		return nil, err
+	}
+
+	return db, nil
 }
