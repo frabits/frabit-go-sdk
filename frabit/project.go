@@ -17,45 +17,45 @@ package frabit
 
 import "context"
 
-type DatabaseService interface {
-	GetDatabase(ctx context.Context) (*Database, error)
-	CreateDatabase(ctx context.Context, req CreateDatabaseRequest) (*Database, error)
+type ProjectService interface {
+	GetProject(ctx context.Context) (*Project, error)
+	CreateProject(ctx context.Context, req CreateProjectRequest) (*Project, error)
 }
 
-type databaseService struct {
+type projectService struct {
 	*Client
 }
 
-type Database struct {
-	Workspace string `json:"workspace"`
-	Name      string `json:"name"`
-	Admin     string `json:"admin"`
-}
-
-type CreateDatabaseRequest struct {
+type Project struct {
 	Workspace string `json:"workspace"`
 	Name      string `json:"name"`
 	Owner     string `json:"owner"`
 }
 
-func (d *databaseService) GetDatabase(ctx context.Context) (*Database, error) {
-	req, _ := d.Client.newRequest("get", "database", nil)
-	db := &Database{}
-	err := d.Client.do(ctx, req, db)
-	if err != nil {
-		return nil, err
-	}
-
-	return db, nil
+type CreateProjectRequest struct {
+	Workspace string `json:"workspace"`
+	Name      string `json:"name"`
+	Owner     string `json:"owner"`
 }
 
-func (d *databaseService) CreateDatabase(ctx context.Context, CreateReq CreateDatabaseRequest) (*Database, error) {
-	req, _ := d.Client.newRequest("post", "database", CreateReq)
-	db := &Database{}
-	err := d.Client.do(ctx, req, db)
+func (u *projectService) GetProject(ctx context.Context) (*Project, error) {
+	req, _ := u.Client.newRequest("get", "database", nil)
+	user := &Project{}
+	err := u.Client.do(ctx, req, user)
 	if err != nil {
 		return nil, err
 	}
 
-	return db, nil
+	return user, nil
+}
+
+func (u *projectService) CreateProject(ctx context.Context, CreateReq CreateProjectRequest) (*Project, error) {
+	req, _ := u.Client.newRequest("post", "database", CreateReq)
+	user := &Project{}
+	err := u.Client.do(ctx, req, user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }

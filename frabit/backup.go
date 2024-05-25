@@ -17,45 +17,45 @@ package frabit
 
 import "context"
 
-type DatabaseService interface {
-	GetDatabase(ctx context.Context) (*Database, error)
-	CreateDatabase(ctx context.Context, req CreateDatabaseRequest) (*Database, error)
+type BackupService interface {
+	GetBackup(ctx context.Context) (*Backup, error)
+	CreateBackup(ctx context.Context, req CreateBackupRequest) (*Backup, error)
 }
 
-type databaseService struct {
+type backupService struct {
 	*Client
 }
 
-type Database struct {
-	Workspace string `json:"workspace"`
-	Name      string `json:"name"`
-	Admin     string `json:"admin"`
-}
-
-type CreateDatabaseRequest struct {
+type Backup struct {
 	Workspace string `json:"workspace"`
 	Name      string `json:"name"`
 	Owner     string `json:"owner"`
 }
 
-func (d *databaseService) GetDatabase(ctx context.Context) (*Database, error) {
-	req, _ := d.Client.newRequest("get", "database", nil)
-	db := &Database{}
-	err := d.Client.do(ctx, req, db)
-	if err != nil {
-		return nil, err
-	}
-
-	return db, nil
+type CreateBackupRequest struct {
+	Workspace string `json:"workspace"`
+	Name      string `json:"name"`
+	Owner     string `json:"owner"`
 }
 
-func (d *databaseService) CreateDatabase(ctx context.Context, CreateReq CreateDatabaseRequest) (*Database, error) {
-	req, _ := d.Client.newRequest("post", "database", CreateReq)
-	db := &Database{}
-	err := d.Client.do(ctx, req, db)
+func (u *backupService) GetBackup(ctx context.Context) (*Backup, error) {
+	req, _ := u.Client.newRequest("get", "database", nil)
+	cls := &Backup{}
+	err := u.Client.do(ctx, req, cls)
 	if err != nil {
 		return nil, err
 	}
 
-	return db, nil
+	return cls, nil
+}
+
+func (u *backupService) CreateBackup(ctx context.Context, CreateReq CreateBackupRequest) (*Backup, error) {
+	req, _ := u.Client.newRequest("post", "database", CreateReq)
+	user := &Backup{}
+	err := u.Client.do(ctx, req, user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
