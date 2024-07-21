@@ -24,6 +24,8 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+
+	"github.com/hashicorp/go-cleanhttp"
 )
 
 const Version = "2.0.19"
@@ -49,6 +51,7 @@ type Client struct {
 	// services used for communicate with the Frabit API
 	Database DatabaseService
 	Team     TeamService
+	Agent    AgentService
 }
 
 type service struct {
@@ -96,6 +99,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 	c := &Client{
 		UserAgent: UserAgent,
 		Headers:   make(map[string]string, 0),
+		client:    cleanhttp.DefaultClient(),
 	}
 
 	// rewrite client config via opts
@@ -108,6 +112,7 @@ func NewClient(opts ...ClientOption) (*Client, error) {
 
 	c.Database = &databaseService{c}
 	c.Team = &teamService{c}
+	c.Agent = &agentService{c}
 
 	return c, nil
 }

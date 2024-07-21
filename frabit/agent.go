@@ -15,8 +15,40 @@
 
 package frabit
 
-type AgentInfo struct {
+import "context"
+
+type AgentService interface {
+	Register(ctx context.Context, req CreateAgentRequest) error
+	Heartbeat(ctx context.Context, req CreateHeartbeat) error
+}
+
+type agentService struct {
+	*Client
+}
+
+type CreateAgentRequest struct {
 	AgentID string `json:"agent_id"`
 	Name    string `json:"name"`
 	Status  string `json:"status"`
+}
+
+type CreateHeartbeat struct {
+	AgentID string `json:"agent_id"`
+	Status  string `json:"status"`
+}
+
+func (s *agentService) Register(ctx context.Context, req CreateAgentRequest) error {
+	request, err := s.Client.newRequest("post", "/agent/register", req)
+	if err != nil {
+		return err
+	}
+	return s.do(ctx, request, nil)
+}
+
+func (s *agentService) Heartbeat(ctx context.Context, req CreateHeartbeat) error {
+	request, err := s.Client.newRequest("post", "/agent/register", req)
+	if err != nil {
+		return err
+	}
+	return s.do(ctx, request, nil)
 }
