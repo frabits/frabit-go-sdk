@@ -27,18 +27,27 @@ type agentService struct {
 }
 
 type CreateAgentRequest struct {
-	AgentID string `json:"agent_id"`
-	Name    string `json:"name"`
-	Status  string `json:"status"`
+	AgentID  string `json:"agent_id"`
+	Name     string `json:"name"`
+	Status   string `json:"status"`
+	ClientIP string `json:"client_ip"`
 }
 
 type CreateHeartbeat struct {
-	AgentID string `json:"agent_id"`
-	Status  string `json:"status"`
+	AgentID string      `json:"agent_id"`
+	Status  AgentStatus `json:"status"`
 }
 
+type AgentStatus string
+
+const (
+	Active      AgentStatus = "active"
+	Failed      AgentStatus = "failed"
+	UnReachable AgentStatus = "un_reachable"
+)
+
 func (s *agentService) Register(ctx context.Context, req CreateAgentRequest) error {
-	request, err := s.Client.newRequest("post", "/agent/register", req)
+	request, err := s.Client.newRequest("post", "/api/v2/agents", req)
 	if err != nil {
 		return err
 	}
@@ -46,7 +55,7 @@ func (s *agentService) Register(ctx context.Context, req CreateAgentRequest) err
 }
 
 func (s *agentService) Heartbeat(ctx context.Context, req CreateHeartbeat) error {
-	request, err := s.Client.newRequest("post", "/agent/register", req)
+	request, err := s.Client.newRequest("post", "/api/v2/agents/heartbeat", req)
 	if err != nil {
 		return err
 	}
