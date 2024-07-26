@@ -27,19 +27,22 @@ type teamService struct {
 }
 
 type Team struct {
-	Workspace string `json:"workspace"`
-	Name      string `json:"name"`
-	Owner     string `json:"owner"`
+	Id          uint32 `json:"id"`
+	Name        string `json:"dame"`
+	Description string `json:"description"`
+	Owner       string `json:"owner"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
 }
 
 type CreateTeamRequest struct {
-	Workspace string `json:"workspace"`
-	Name      string `json:"name"`
-	Owner     string `json:"owner"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Owner       string `json:"owner"`
 }
 
 func (t *teamService) GetTeam(ctx context.Context) (*Team, error) {
-	req, _ := t.Client.newRequest("get", "database", nil)
+	req, _ := t.Client.newRequest("get", "team", nil)
 	db := &Team{}
 	err := t.Client.do(ctx, req, db)
 	if err != nil {
@@ -50,7 +53,7 @@ func (t *teamService) GetTeam(ctx context.Context) (*Team, error) {
 }
 
 func (t *teamService) CreateTeam(ctx context.Context, CreateReq CreateTeamRequest) (*Team, error) {
-	req, _ := t.Client.newRequest("post", "database", CreateReq)
+	req, _ := t.Client.newRequest("post", "team", CreateReq)
 	db := &Team{}
 	err := t.Client.do(ctx, req, db)
 	if err != nil {

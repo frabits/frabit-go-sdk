@@ -18,8 +18,8 @@ package frabit
 import "context"
 
 type UserService interface {
-	GetTeam(ctx context.Context) (*User, error)
-	CreateTeam(ctx context.Context, req CreateTeamRequest) (*User, error)
+	GetUser(ctx context.Context) (*User, error)
+	CreateUser(ctx context.Context, req CreateUserRequest) (*User, error)
 }
 
 type userService struct {
@@ -33,13 +33,15 @@ type User struct {
 }
 
 type CreateUserRequest struct {
-	Workspace string `json:"workspace"`
-	Name      string `json:"name"`
-	Owner     string `json:"owner"`
+	Login    string `json:"login"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Theme    string `json:"theme"`
 }
 
 func (u *userService) GetUser(ctx context.Context) (*User, error) {
-	req, _ := u.Client.newRequest("get", "database", nil)
+	req, _ := u.Client.newRequest("get", "user", nil)
 	user := &User{}
 	err := u.Client.do(ctx, req, user)
 	if err != nil {
@@ -50,7 +52,7 @@ func (u *userService) GetUser(ctx context.Context) (*User, error) {
 }
 
 func (u *userService) CreateUser(ctx context.Context, CreateReq CreateUserRequest) (*User, error) {
-	req, _ := u.Client.newRequest("post", "database", CreateReq)
+	req, _ := u.Client.newRequest("post", "user", CreateReq)
 	user := &User{}
 	err := u.Client.do(ctx, req, user)
 	if err != nil {
